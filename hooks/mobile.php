@@ -39,13 +39,16 @@ class mobile {
 			$session->set('full', 1);
 		}
 
-		if ( ! $session->get('full') )
+		if ( ! $session->get('full') AND ! $session->get('mobileredirected') )
 		{
 			// If Mobile Configure Mobile Settings
 			if(isset($_SERVER['HTTP_USER_AGENT']) AND $this->_is_mobile()
 				AND strrpos(url::current(), "mobile") === FALSE
 				AND Router::$controller != 'api') 
 			{
+				// Set mobileredirected flag to prevent too many redirects
+				$session->set('mobileredirected', 1);
+				
 				// Only add the events if we are on that controller
 				url::redirect(url::base()."mobile");
 			}
