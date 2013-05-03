@@ -35,6 +35,8 @@ class Mobile_Controller extends Template_Controller {
 		// Set Table Prefix
 		$this->table_prefix = Kohana::config('database.default.table_prefix');
 		
+		$this->themes = new Themes();
+		
 		// Load Header & Footer
 		$this->template->header  = new View('mobile/header');
 		$this->template->footer  = new View('mobile/footer');
@@ -42,11 +44,11 @@ class Mobile_Controller extends Template_Controller {
 		$this->template->header->site_name = Kohana::config('settings.site_name');
 		$this->template->header->site_tagline = Kohana::config('settings.site_tagline');
 
-		plugin::add_javascript('mobile/views/js/jquery');
-		plugin::add_javascript('mobile/views/js/jquery.treeview');
-		plugin::add_javascript('mobile/views/js/expand');
-		plugin::add_stylesheet('mobile/views/css/styles');
-		plugin::add_stylesheet('mobile/views/css/jquery.treeview');
+		Requirements::js('plugins/mobile/views/js/jquery.js');
+		Requirements::js('plugins/mobile/views/js/jquery.treeview.js');
+		Requirements::js('plugins/mobile/views/js/expand.js');
+		Requirements::css('plugins/mobile/views/css/styles.css');
+		Requirements::css('plugins/mobile/views/css/jquery.treeview.css');
 		
 		$this->template->header->show_map = FALSE;
 		$this->template->header->js = "";
@@ -98,17 +100,7 @@ class Mobile_Controller extends Template_Controller {
 	*/
 	private function _google_analytics($google_analytics = false)
 	{
-		$html = "";
-		if (!empty($google_analytics)) {
-			$html = "<script type=\"text/javascript\">
-				var gaJsHost = ((\"https:\" == document.location.protocol) ? \"https://ssl.\" : \"http://www.\");
-				document.write(unescape(\"%3Cscript src='\" + gaJsHost + \"google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E\"));
-				</script>
-				<script type=\"text/javascript\">
-				var pageTracker = _gat._getTracker(\"" . $google_analytics . "\");
-				pageTracker._trackPageview();
-				</script>";
-		}
-		return $html;
-	}	
+		return $this->themes->google_analytics();
+	}
+	
 }
