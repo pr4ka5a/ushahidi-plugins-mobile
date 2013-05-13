@@ -4,9 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=320; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
 <title><?php echo $site_name; ?></title>
+	<?php echo Requirements::render(); ?>
+	<?php
+	// Action::header_scripts - Additional Inline Scripts from Plugins
+	Event::run('ushahidi_action.header_scripts');
+	?>
 <?php
-echo plugin::render('stylesheet');
-echo plugin::render('javascript');
 
 if ($show_map === TRUE)
 {
